@@ -1,5 +1,6 @@
-require('dotenv').config();
+
 const express = require('express');
+const cors = require('cors');
 const helmet = require('helmet');
 
 const server = express();
@@ -8,7 +9,9 @@ const actionsDb = require('./data/helpers/actionModel.js');
 const projectsDb = require('./data/helpers/projectModel.js'); 
 
 server.use(express.json());
+server.use(cors());
 server.use(helmet());
+
 
 server.get('/', (req, res) => {
     res.send('<h1>This is the Sprint Challenge</h1>')
