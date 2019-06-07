@@ -1,5 +1,16 @@
 require('dotenv').config();
-const server = require('./server');
+const express = require('express');
+
+const server = express();
+
+const actionsdb = require('./data/helpers/actionModel.js');
+const projectdb = require('./data/helpers/projectModel.js'); 
+
+server.use(express.json());
+
+server.get('/', (req, res) => {
+    res.send('<h1>This is the Sprint Challenge</h1>')
+})
 
 const port = process.env.PORT || 5000;
 
