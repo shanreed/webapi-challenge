@@ -16,25 +16,25 @@ server.get('/', (req, res) => {
 //Actions GET
 server.get('/api/actions', (req, res) => {
   actionsDb.get()
-  .then(actions => {
-      res.status(200).json(actions)
-  })
-  .catch(err => {
-    console.log(err)
-      res.status(500).json({ message: 'Error getting actions' })
-  })
+           .then(actions => {
+                res.status(200).json(actions)
+            })
+           .catch(err => {
+              console.log(err)
+                res.status(500).json({ message: 'Error getting actions' })
+            })
 });
 
 //Projects GET
 server.get('/api/projects', (req, res) => {
   projectsDb.get()
-  .then(projects => {
-      res.status(200).json(projects)
-  })
-  .catch(err => {
-    console.log(err)
-      res.status(500).json({ meaasge: 'Error getting projects' });
-  })
+            .then(projects => {
+                res.status(200).json(projects)
+            })
+            .catch(err => {
+              console.log(err)
+                res.status(500).json({ meaasge: 'Error getting projects' });
+            })
 });
 
 //Actions POST
@@ -42,42 +42,42 @@ server.post('/api/actions', (req, res) => {
   const addAction = req.body;
   const { project_id } = req.body
   actionsDb.insert(addAction)
-  .then(action => {
-      if(!project_id) {
-        res.status(400).json({ message: 'Could not find action with that id' }); 
-      } else {
-        res.status(201).json(action)
-      }
-  })
-  .catch(err => {
-    console.log(err)
-      res.status(500).json({ message: 'Could not add action' })
-  })
+           .then(action => {
+                if(!project_id) {
+                  res.status(400).json({ message: 'Could not find action with that id' }); 
+                } else {
+                  res.status(201).json(action)
+                }
+             })
+           .catch(err => {
+              console.log(err)
+                res.status(500).json({ message: 'Could not add action' })
+            })
 });
 
 //Projects Post
 server.post('/api/projects', (req, res) => {
   const addProject = req.body;
   projectsDb.insert(addProject)
-  .then(project => {
-      res.status(201).json(project)
-  })
-  .catch(err => {
-    console.log(err)
-      res.status(500).json({ message: 'Could not add project' });
-  })
+            .then(project => {
+                res.status(201).json(project)
+            })
+            .catch(err => {
+              console.log(err)
+                res.status(500).json({ message: 'Could not add project' });
+            })
 });
 
 //DELETE Actions
 server.delete('/api/actions/:id', (req, res) => {
   const { id } = req.params;
   actionsDb.remove(id)
-  .then(action => {
-      res.status(204).json(action)
-  })
-  .catch(err => {
-    console.log(err)
-      res.status(500).json({ message: 'Could not delete actions' })
+           .then(action => {
+              res.status(204).json(action)
+            })
+           .catch(err => {
+            console.log(err)
+              res.status(500).json({ message: 'Could not delete actions' })
   })
 });
 
@@ -85,12 +85,12 @@ server.delete('/api/actions/:id', (req, res) => {
 server.delete('/api/projects/:id', (req, res) => {
   const { id } = req.params;
   ProjectDb.remove(id)
-  .then(project => {
-      res.status(204).json(project)
-  })
-  .catch(err => {
-      res.status(500).json({ message: 'Cannot delete projects' })
-  })
+           .then(project => {
+                res.status(204).json(project)
+            })
+           .catch(err => {
+                res.status(500).json({ message: 'Cannot delete projects' })
+            })
 });
 
 //Actions PUT
@@ -98,19 +98,34 @@ server.put('/api/actions/:id', (req, res) => {
   const { id } = req.params;
   const update = req.body;
   actionsDb.update(id, update)
-  .then(change => {
-      if(!id) {
-          res.status(404).json({messgae: 'null'})
-      } else {
-          res.status(200).json(change);
-      }})
-  .catch(err => {
-    console.log(err)
-      res.status(500).json({ message: 'Could not update action' })
-  })
+           .then(change => {
+              if(!id) {
+                  res.status(404).json({messgae: 'null'})
+              } else {
+                  res.status(201).json(change);
+              }})
+           .catch(err => {
+            console.log(err)
+              res.status(500).json({ message: 'Could not update action' })
+          })
 });
 
-
+//Projects PUT
+server.put('/api/projects/:id', (req, res) => {
+  const { id } = req.params;
+  const update = req.body;
+  ProjectsDb.update(id, update) 
+            .then(updated => {
+                if(!id) {
+                    res.status(404).json({message: 'null'})
+                } else {
+                    res.status(201).json(updated);
+                }})
+            .catch(err => {
+              console.log(err)
+                res.status(500).json({ err: 'error updating project' })
+  })
+})
 
 
 const port = process.env.PORT || 5000;
