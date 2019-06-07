@@ -12,6 +12,25 @@ server.get('/', (req, res) => {
     res.send('<h1>This is the Sprint Challenge</h1>')
 })
 
+
+//Actions
+//GET
+server.get('/api/actions', (req, res) => {
+  actionsdb.get()
+  .then(actions => {
+      res.status(200).json(actions)
+  })
+  .catch(err => {
+    console.log(err)
+      res.status(500).json({ message: 'Error getting actions' })
+  })
+})
+
+
+
+
+
+
 const port = process.env.PORT || 5000;
 
 server.listen(port, () => {
