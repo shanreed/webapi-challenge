@@ -33,7 +33,38 @@ server.get('/api/projects', (req, res) => {
   })
   .catch(err => {
     console.log(err)
-      res.status(500).json({ err: 'Error getting projects' });
+      res.status(500).json({ meaasge: 'Error getting projects' });
+  })
+})
+
+//Actions POST
+server.post('/api/actions', (req, res) => {
+  const addAction = req.body;
+  const { project_id } = req.body
+  actionsDb.insert(addAction)
+  .then(action => {
+      if(!project_id) {
+        res.status(400).json({ message: 'Could not find action with that id' }); 
+      } else {
+        res.status(201).json(action)
+      }
+  })
+  .catch(err => {
+    console.log(err)
+      res.status(500).json({ message: 'Could not add action' })
+  })
+})
+
+//Projects Post
+server.post('/api/projects', (req, res) => {
+  const addProject = req.body;
+  projectsDb.insert(addProject)
+  .then(project => {
+      res.status(201).json(project)
+  })
+  .catch(err => {
+    console.log(err)
+      res.status(500).json({ message: 'Could not add project' });
   })
 })
 
