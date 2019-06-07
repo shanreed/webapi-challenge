@@ -3,8 +3,8 @@ const express = require('express');
 
 const server = express();
 
-const actionsdb = require('./data/helpers/actionModel.js');
-const projectdb = require('./data/helpers/projectModel.js'); 
+const actionsDb = require('./data/helpers/actionModel.js');
+const projectsDb = require('./data/helpers/projectModel.js'); 
 
 server.use(express.json());
 
@@ -13,10 +13,9 @@ server.get('/', (req, res) => {
 })
 
 
-//Actions
-//GET
+//Actions GET
 server.get('/api/actions', (req, res) => {
-  actionsdb.get()
+  actionsDb.get()
   .then(actions => {
       res.status(200).json(actions)
   })
@@ -26,6 +25,17 @@ server.get('/api/actions', (req, res) => {
   })
 })
 
+//Projects GET
+server.get('/api/projects', (req, res) => {
+  projectsDb.get()
+  .then(projects => {
+      res.status(200).json(projects)
+  })
+  .catch(err => {
+    console.log(err)
+      res.status(500).json({ err: 'Error getting projects' });
+  })
+})
 
 
 
