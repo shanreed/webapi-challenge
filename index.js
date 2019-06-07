@@ -23,7 +23,7 @@ server.get('/api/actions', (req, res) => {
     console.log(err)
       res.status(500).json({ message: 'Error getting actions' })
   })
-})
+});
 
 //Projects GET
 server.get('/api/projects', (req, res) => {
@@ -35,7 +35,7 @@ server.get('/api/projects', (req, res) => {
     console.log(err)
       res.status(500).json({ meaasge: 'Error getting projects' });
   })
-})
+});
 
 //Actions POST
 server.post('/api/actions', (req, res) => {
@@ -53,7 +53,7 @@ server.post('/api/actions', (req, res) => {
     console.log(err)
       res.status(500).json({ message: 'Could not add action' })
   })
-})
+});
 
 //Projects Post
 server.post('/api/projects', (req, res) => {
@@ -66,8 +66,49 @@ server.post('/api/projects', (req, res) => {
     console.log(err)
       res.status(500).json({ message: 'Could not add project' });
   })
-})
+});
 
+//DELETE Actions
+server.delete('/api/actions/:id', (req, res) => {
+  const { id } = req.params;
+  actionsDb.remove(id)
+  .then(action => {
+      res.status(204).json(action)
+  })
+  .catch(err => {
+    console.log(err)
+      res.status(500).json({ message: 'Could not delete actions' })
+  })
+});
+
+//DELETE Projects
+server.delete('/api/projects/:id', (req, res) => {
+  const { id } = req.params;
+  ProjectDb.remove(id)
+  .then(project => {
+      res.status(204).json(project)
+  })
+  .catch(err => {
+      res.status(500).json({ message: 'Cannot delete projects' })
+  })
+});
+
+//Actions PUT
+server.put('/api/actions/:id', (req, res) => {
+  const { id } = req.params;
+  const update = req.body;
+  actionsDb.update(id, update)
+  .then(change => {
+      if(!id) {
+          res.status(404).json({messgae: 'null'})
+      } else {
+          res.status(200).json(change);
+      }})
+  .catch(err => {
+    console.log(err)
+      res.status(500).json({ message: 'Could not update action' })
+  })
+});
 
 
 
